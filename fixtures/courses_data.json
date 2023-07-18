@@ -1,0 +1,21 @@
+[
+  {
+    "model": "main.course",
+    "pk": 1,
+    "fields": {
+      "name": "Курс 1.1",
+      "preview": "",
+      "description": "Описание курса 1"
+    }
+  },
+  {
+    "model": "main.course",
+    "pk": 1,
+    "fields": {
+      "id": 2,
+      "name": "Курс 2",
+      "preview": null,
+      "description": "Описание курса 2"
+    }
+  }
+]

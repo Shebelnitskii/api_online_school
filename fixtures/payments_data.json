@@ -1,0 +1,13 @@
+[
+   {
+    "model": "main.payment",
+    "pk": 1,
+    "fields": {
+      "payment_date": "2023-07-15",
+      "course": null,
+      "lesson": 2,
+      "amount": "45000.00",
+      "payment_method": "transfer"
+    }
+  }
+]

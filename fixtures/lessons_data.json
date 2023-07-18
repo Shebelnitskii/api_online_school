@@ -1,0 +1,22 @@
+[
+  {
+    "model": "main.lesson",
+    "pk": 2,
+    "fields": {
+      "name": "Урок 1",
+      "description": "Описание урока 1",
+      "preview": "",
+      "video_link": null
+    }
+  },
+  {
+    "model": "main.lesson",
+    "pk": 3,
+    "fields": {
+      "name": "Урок 2",
+      "description": "Описание урока 2",
+      "preview": "",
+      "video_link": null
+    }
+  }
+]
