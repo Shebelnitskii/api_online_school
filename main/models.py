@@ -5,10 +5,14 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 # Create your models here.
+
+
 class Course(models.Model):
     name = models.CharField(max_length=200)
     preview = models.ImageField(upload_to='previews/', **NULLABLE)
     description = models.TextField()
+
+    lessons = models.ManyToManyField('Lesson', related_name='courses')
 
     def __str__(self):
         return self.name
@@ -24,12 +28,15 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to='previews/', **NULLABLE)
     video_link = models.URLField(**NULLABLE)
 
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
+        ordering = ('-course',)
 
 
 class Payment(models.Model):
