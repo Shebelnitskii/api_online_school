@@ -1,4 +1,6 @@
 from django.db import models
+
+from config import settings
 from users.models import User
 
 NULLABLE = {'blank': True, 'null': True}
@@ -13,6 +15,7 @@ class Course(models.Model):
     description = models.TextField()
 
     lessons = models.ManyToManyField('Lesson', related_name='courses')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
         return self.name
@@ -29,6 +32,7 @@ class Lesson(models.Model):
     video_link = models.URLField(**NULLABLE)
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
         return self.name
