@@ -1,7 +1,7 @@
 from rest_framework.routers import DefaultRouter
 from django.urls import path
 from main.views import CourseViewSet, LessonListView, LessonCreateView, LessonDetailView, LessonDeleteView, \
-    LessonUpdateView, PaymentListView, PaymentCreateView
+    LessonUpdateView, PaymentListView, PaymentCreateView, SubscriptionCreateView, SubscriptionDeleteView
 from main.apps import MainConfig
 
 app_name = MainConfig.name
@@ -17,6 +17,8 @@ urlpatterns = [
     path('lessons/update/<int:pk>/', LessonUpdateView.as_view(), name='lesson-update'),
     path('payments/list/', PaymentListView.as_view(), name='payment-list'),
     path('payments/create/', PaymentCreateView.as_view(), name='payment-create'),
+    path('subscription/', SubscriptionCreateView.as_view(), name='subscription'),
+    path('unsubscribe/<int:course_id>/', SubscriptionDeleteView.as_view(), name='unsubscribe'),
 ]
 
 urlpatterns += router.urls
