@@ -17,6 +17,7 @@ class LessonSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Недопустимая ссылка на видео.")
 
         return data
+
 class CourseSerializer(serializers.ModelSerializer):
     count_lessons = serializers.SerializerMethodField()
     lessons = LessonSerializer(many=True, read_only=True, source='lesson_set')

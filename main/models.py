@@ -13,7 +13,7 @@ class Course(models.Model):
     name = models.CharField(max_length=200)
     preview = models.ImageField(upload_to='previews/', **NULLABLE)
     description = models.TextField()
-
+    video_link = models.URLField(**NULLABLE)
     lessons = models.ManyToManyField('Lesson', related_name='lesson_set')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
 
