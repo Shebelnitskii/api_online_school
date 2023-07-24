@@ -1,5 +1,5 @@
 from django.db import models
-
+import re
 from config import settings
 from users.models import User
 
@@ -13,8 +13,8 @@ class Course(models.Model):
     name = models.CharField(max_length=200)
     preview = models.ImageField(upload_to='previews/', **NULLABLE)
     description = models.TextField()
-
-    lessons = models.ManyToManyField('Lesson', related_name='courses')
+    video_link = models.URLField(**NULLABLE)
+    lessons = models.ManyToManyField('Lesson', related_name='lesson_set')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
@@ -43,6 +43,7 @@ class Lesson(models.Model):
         ordering = ('-course',)
 
 
+
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, **NULLABLE)
     payment_date = models.DateField()
@@ -57,3 +58,14 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.payment_date}"
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
+        unique_together = ['course']
