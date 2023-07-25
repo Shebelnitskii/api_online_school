@@ -20,6 +20,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     count_lessons = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
     lessons = LessonSerializer(many=True, read_only=True, source='lesson_set')
 
     class Meta:
@@ -39,6 +40,13 @@ class CourseSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Недопустимая ссылка на видео.")
 
         return data
+
+    def get_is_subscribed(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return obj.subscription_set.filter(user=request.user).exists()
+        return False
+
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
