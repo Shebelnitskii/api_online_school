@@ -1,6 +1,10 @@
+from django.urls import reverse
 from rest_framework import serializers
 from .models import Course, Lesson, Payment, Subscription
 import re
+import stripe
+
+stripe.api_key = "sk_test_51NXlFpBiP5yS4rpmxgSlfoEKBhMfWLZf7M1ga1NQYcGEWOe3tWlymd4WxVRQtNS3IArK3odefWUOBFb3XgWtn4hM00T5GcVqfQ"
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -18,9 +22,11 @@ class LessonSerializer(serializers.ModelSerializer):
 
         return data
 
+
 class CourseSerializer(serializers.ModelSerializer):
     count_lessons = serializers.SerializerMethodField()
     is_subscribed = serializers.SerializerMethodField()
+    url_payments = serializers.SerializerMethodField()
     lessons = LessonSerializer(many=True, read_only=True, source='lesson_set')
 
     class Meta:
@@ -47,6 +53,26 @@ class CourseSerializer(serializers.ModelSerializer):
             return obj.subscription_set.filter(user=request.user).exists()
         return False
 
+    def get_url_payments(self, course):
+        payment = stripe.Product.create(name=course.name, )
+        price = stripe.Price.create(
+            unit_amount=int(course.price)*100,
+            currency="usd",
+            product=payment['id'],
+        )
+        session = stripe.checkout.Session.create(
+            success_url="https://example.com/success",
+            line_items=[
+                {
+                    "price": price['id'],
+                    "quantity": 1,
+                },
+            ],
+            mode="payment",
+        )
+
+        return session['url']
+
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,4 +84,3 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'
-

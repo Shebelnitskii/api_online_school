@@ -12,6 +12,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    """ Course View Set """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = CoursePagination
@@ -22,6 +23,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 
 
 class LessonListView(generics.ListAPIView):
+    """ Lesson List View """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     pagination_class = LessonPagination
@@ -38,6 +40,7 @@ class LessonListView(generics.ListAPIView):
 
 
 class LessonCreateView(generics.CreateAPIView):
+    """ Lesson Create View """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     # permission_classes = [IsAuthenticated, IsStaffNotCreateOrDelete]
@@ -51,6 +54,7 @@ class LessonCreateView(generics.CreateAPIView):
 
 
 class LessonDetailView(generics.RetrieveAPIView):
+    """ Lesson Detail View """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     # permission_classes = [IsAuthenticated, IsOwnerOnly]
@@ -59,20 +63,25 @@ class LessonDetailView(generics.RetrieveAPIView):
 
 
 class LessonDeleteView(generics.DestroyAPIView):
+    """ Lesson Delete View """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     # permission_classes = [IsAuthenticated, IsStaffNotCreateOrDelete | IsOwnerOnly]
     ### Открыть для тестов
     permission_classes = [AllowAny]
 
+
 class LessonUpdateView(generics.UpdateAPIView):
+    """ Lesson Update View """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     # permission_classes = [IsAuthenticated, IsOwnerOnly | IsStaffUpdate]
     ### Открыть для тестов
     permission_classes = [AllowAny]
 
+
 class PaymentListView(generics.ListAPIView):
+    """ Payment List View """
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     filter_backends = [DjangoFilterBackend, OrderingFilter]
@@ -82,12 +91,14 @@ class PaymentListView(generics.ListAPIView):
 
 
 class PaymentCreateView(generics.CreateAPIView):
+    """ Payment Create View """
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
     permission_classes = [IsAuthenticated]
 
 
 class SubscriptionCreateView(generics.CreateAPIView):
+    """ Subscription Create View """
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     # permission_classes = [IsAuthenticated]
@@ -99,6 +110,7 @@ class SubscriptionCreateView(generics.CreateAPIView):
 
 
 class SubscriptionDeleteView(generics.DestroyAPIView):
+    """ Subscription Delete View """
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
     # permission_classes = [IsAuthenticated]
@@ -108,3 +120,6 @@ class SubscriptionDeleteView(generics.DestroyAPIView):
     def get_object(self):
         course_id = self.kwargs['course_id']
         return Subscription.objects.get(user=self.request.user, course_id=course_id)
+
+def payment_endpoint():
+    pass
