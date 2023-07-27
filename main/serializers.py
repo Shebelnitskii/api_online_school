@@ -4,7 +4,7 @@ from .models import Course, Lesson, Payment, Subscription
 import re
 import stripe
 
-stripe.api_key = "sk_test_51NXlFpBiP5yS4rpmxgSlfoEKBhMfWLZf7M1ga1NQYcGEWOe3tWlymd4WxVRQtNS3IArK3odefWUOBFb3XgWtn4hM00T5GcVqfQ"
+stripe.api_key = ""
 
 
 class LessonSerializer(serializers.ModelSerializer):
