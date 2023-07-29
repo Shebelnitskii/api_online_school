@@ -6,7 +6,7 @@ from .permissions import IsOwnerOnly, IsStaffNotCreateOrDelete, IsStaffUpdate, I
 from .serializers import CourseSerializer, LessonSerializer, PaymentSerializer, SubscriptionSerializer
 from rest_framework.filters import OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
-
+from main.tasks import send_update_course
 
 # Create your views here.
 
@@ -51,6 +51,12 @@ class LessonCreateView(generics.CreateAPIView):
         new_lesson = serializer.save()
         new_lesson.owner = self.request.user
         new_lesson.save()
+
+        course_id = new_lesson.course_id
+        lesson_id = new_lesson.id
+        send_update_course.delay(lesson_id, course_id)
+
+
 
 
 class LessonDetailView(generics.RetrieveAPIView):

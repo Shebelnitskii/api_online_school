@@ -1,10 +1,12 @@
 from django.urls import reverse
 from rest_framework import serializers
+
+import config.settings
 from .models import Course, Lesson, Payment, Subscription
 import re
 import stripe
 
-stripe.api_key = ""
+stripe.api_key = config.settings.STRIPE_API_KEY
 
 
 class LessonSerializer(serializers.ModelSerializer):
