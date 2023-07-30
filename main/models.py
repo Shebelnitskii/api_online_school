@@ -1,5 +1,4 @@
 from django.db import models
-import re
 from config import settings
 from users.models import User
 
@@ -15,6 +14,8 @@ class Course(models.Model):
     description = models.TextField()
     video_link = models.URLField(**NULLABLE)
     lessons = models.ManyToManyField('Lesson', related_name='lesson_set')
+
+    price = models.FloatField(default=1000.00, verbose_name='Цена за курс в центах USD')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE, verbose_name='Автор')
 
     def __str__(self):
