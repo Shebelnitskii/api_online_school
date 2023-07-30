@@ -54,7 +54,7 @@ class LessonCreateView(generics.CreateAPIView):
 
         course_id = new_lesson.course_id
         lesson_id = new_lesson.id
-        send_update_course.delay(lesson_id, course_id)
+        send_update_course.delay(course_id, lesson_id)
 
 
 
